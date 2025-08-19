@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Mood Selector</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gradient-to-r from-purple-400 to-pink-400 min-h-screen flex flex-col justify-center items-center text-center">
+  <h1 class="text-3xl font-bold text-white mb-6">Hello <br>How are you feeling today?</h1>
+  
+  <div class="grid grid-cols-3 gap-6 text-5xl">
+    <a href="/mood/Happy">😊</a>
+    <a href="/mood/Sad">😢</a>
+    <a href="/mood/Emotional">🥺</a>
+    <a href="/mood/Neutral">😐</a>
+    <a href="/mood/Angry">😡</a>
+    <a href="/mood/Love">💖</a>
+    <a href="/mood/Excited">🤩</a>
+    <a href="/mood/Relaxed">😌</a>
+    <a href="/mood/Romantic">😍</a>
+  </div>
+  <script>
+        // Example: Check if the user is authenticated (simplified session check)
+        var isAuthenticated = sessionStorage.getItem('isLoggedIn');
+    
+        if (!isAuthenticated) {
+          alert("Access denied. Please login first.");
+          window.location.href = 'login.html'; // Redirect to login page
+        }
+      </script>
+</body>
+</html>
