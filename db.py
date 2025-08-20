@@ -1,11 +1,9 @@
 import pandas as pd
 import os
 
-# Folder for storing csv files
 folder_name = "mood_data"
 os.makedirs(folder_name, exist_ok=True)
 
-# Mood data dictionary
 mood_data = {
     "Happy": [
         {"Emoji": "🙂", "Mood": "Happy", "Quote": "Happiness is a journey, not a destination.", "Song": "love you zindagi - dear zindagi", "Background_Color": "#FFD700"},
@@ -34,7 +32,6 @@ mood_data = {
     ]
 }
 
-# Create CSV files in table form printing
 for mood, entries in mood_data.items():
     df = pd.DataFrame(entries)
     file_path = os.path.join(folder_name, f"{mood}.csv")
@@ -42,6 +39,7 @@ for mood, entries in mood_data.items():
     print(f"\n {mood} Mood Data:")
     print(df)
 
-print("\n All CSV files created successfully in the 'mood_data' folder.")
 
-print("\n-------------------------------THNAK YOU-------------------------------------")
+
+
+
