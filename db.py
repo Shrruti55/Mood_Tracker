@@ -1,46 +1,88 @@
 import pandas as pd
 import os
+from tabulate import tabulate 
 
+# Folder for storing csv files
 folder_name = "mood_data"
 os.makedirs(folder_name, exist_ok=True)
 
+# Mood data dictionary
 mood_data = {
+    
     "Happy": [
-        {"Emoji": "🙂", "Mood": "Happy", "Quote": "Happiness is a journey, not a destination.", "Song": "love you zindagi - dear zindagi", "Background_Color": "#FFD700"},
-        {"Emoji": "😄", "Mood": "Happy", "Quote": "Smile, it’s free therapy.", "Song": "phir se udd chala - Rockstar", "Background_Color": "#FFFACD"},
-        {"Emoji": "😁", "Mood": "Happy", "Quote": "A day without laughter is a day wasted.", "Song": "Gallan goodiyan - dil dhadkane do", "Background_Color": "#FFFF99"}
+        {"Mood": "Happy", "Quote": "Happiness is a journey, not a destination.", "Song": "love you zindagi - dear zindagi", "link": "https://youtu.be/bw7bVpI5VcM?si=xW9jR7TNb4e9GwvR"},
+        {"Mood": "Happy", "Quote": "Smile, it’s free therapy.", "Song": "phir se udd chala - Rockstar", "link": "https://youtu.be/-3gQ6HIkRys?si=wrUlnIxo_QMuOtiU"},
+        {"Mood": "Happy", "quote" : "One whose happiness is within … attains liberation.","Song":"Dil Dhadkane do - Zindagi na milegi dobara","link":"https://youtu.be/PyTaSNvflM0?si=BDvdssDCiwc5s4Cu"},
+        {"Mood": "Happy", "Quote": "Detached from external contacts, he finds happiness in the Self.","song":"Man ki Lagan - Paap","link" :"https://youtu.be/tuxzfwUVSlE?si=Y_uThfWSsL5qvJUx"},
+        {"Mood": "Happy", "Quote": "A day without laughter is a day wasted.", "Song": "Gallan goodiyan - dil dhadkane do", "link": "https://youtu.be/jCEdTq3j-0U?si=b1u1heCu7cUMGrC2"}
     ],
     "Sad": [
-        {"Emoji": "😢", "Mood": "Sad", "Quote": "Tears are words that the heart can’t express.", "Song": "Agar tum saath ho - Tamasha", "Background_Color": "#4682B4"},
-        {"Emoji": "😭", "Mood": "Sad", "Quote": "Sometimes you just need a good cry.", "Song": "Ae dil hain mushki - Ae dil hai mushkil", "Background_Color": "#5F9EA0"},
-        {"Emoji": "😞", "Mood": "Sad", "Quote": "Every storm runs out of rain.", "Song": "Raabta - agent vinod", "Background": "#87CEEB"}
+        {"Mood": "Sad",  "Quote": "Tears are words that the heart can’t express.", "Song": "Agar tum saath ho - Tamasha","link":"https://youtu.be/dhY8jRNELUc?si=qnAUN2uC7A6IhB6d"},
+        {"Mood": "Sad",  "Quote": "Sometimes you just need a good cry.", "Song": "Ae dil hai mushkil - Ae dil hai mushkil","link":"https://youtu.be/6FURuLYrR_Q?si=mj46gzBAmj5Qomth" },
+        {"Mood" : "Sad", "Quote": "Every storm runs out of rain.", "Song": "Raabta - agent vinod","link":"https://youtu.be/zAU_rsoS5ok?si=Dzh6ROOBNqdWKqOU" },
+        {"Mood": "Sad",  "Quote":"For one who is born, death is certain… therefore you should not lament","song":"Zinda - lootera","link":"https://youtu.be/cgHLvt0rxmM?si=zBg79n47rWq9Vwxw"},
+        {"Mood": "Sad",  "quote": "You grieve for what is not worthy of grief; the wise lament neither for the living nor the dead.","song":"Chale chalo - Lagan","link":"https://youtu.be/LQmHKl3oNu0?si=VVULvroUZ45Lr6Gt" }
+    ],
+    "Emotional": [
+        {"Mood": "Emotional", "Quote": "Wherever the restless mind wanders, bring it back under the control of the Self.", "Song": "Kun Faya Kun - Rockstar","Link":"https://youtu.be/0RDI9CMilhk?si=iAvx-1pkxan-GQ_7"},
+        {"Mood": "Emotional", "Quote": "Lift yourself by your own Self; the mind is one’s friend and enemy", "Song": "Chand tare - I am Kalam","link":"https://youtu.be/UVHEvVmqwdo?si=AF-md65C04zjZsLS"},
+        {"Mood": "Emotional", "Quote": "Sometimes the heaviest burdens are the ones we carry silently, hidden behind a smile", "Song": "Kabira - yeh jawani hain deewani","link":"https://youtu.be/jHNNMj5bNQw?si=Il49PSlkfyN-7wGv"},
+        {"Mood": "Emotional", "quotes":"The heart remembers what the mind tries to forget, and in that memory lies both pain and beauty","song":"Tera yaar hoon mein - sonu ke titu ki sweety","link":"https://youtu.be/C1DucVoyfwY?si=-lLecX4p1sNqQ2Fy"},
+        {"Mood": "Emotional", "Quotes":"Some scars are invisible, yet they shape us more than any wound ever could","song":"tujhse naaraz nahi zindagi","link":"https://youtu.be/T2V1lFQ62Is?si=22n_zIC_bz_5X79e"}
+    ],
+    "Neutral": [
+        {"Mood": "Neutral", "Quote": "Be steadfast in yoga; perform your duty, abandoning attachment; equanimity is yoga", "Song": "O Palanhare","link":"https://youtu.be/kbMinfmC3E0?si=G3J6eRrRQWS9lFm9"},
+        {"Mood": "Neutral", "Quote": "Cold and heat, pleasure and pain… endure them, O Arjuna", "Song": "Ashayein - ibal","link":"https://youtu.be/CaI0xNLpurM?si=635GwS5oWEHar1zr"},
+        {"Mood": "Neutral", "Quote": "Every day is a page in the story of your life; some are quiet, some are loud, but each is worth reading.", "Song": "zindagi kaisi yeh paheli","link":"https://youtu.be/-y6_cFZsMJA?si=vP621yOMfpZH8xhi"},
+        {"Mood": "Neutral", "Quote": "Life flows like a river—sometimes calm, sometimes restless, but always moving forward", "Song": "Safarnama","link":"https://youtu.be/7mTDBsdfw88?si=cuRXegtxtvrFxpxo"},
+        {"Mood": "Neutral", "Quote": "The mind finds clarity when we simply observe, without needing to change anything", "Song": "o re piya","link":"https://youtu.be/iv7lcUkFVSc?si=eCxqJHQ5CC29Jfij"}
     ],
     "Angry": [
-        {"Emoji": "😡", "Mood": "Angry", "Quote": "Speak when you are angry and you'll make the best speech you'll ever regret.", "Song": "Bulleya - Ae dil hain mushkil", "Background_Color": "#FF4500"},
-        {"Emoji": "😠", "Mood": "Angry", "Quote": "Anger is one letter short of danger.", "Song": "Bekhayali - kabir singh", "Background_Color": "#FF6347"},
-        {"Emoji": "😤", "Mood": "Angry", "Quote": "Don't let anger control you, let it teach you.", "Song": "Jee karda - Badlapur", "Background_Color": "#FF7F50"}
+        {"Mood": "Angry", "Quote": "Speak when you are angry and you'll make the best speech you'll ever regret.", "Song": "Bulleya - Ae dil hai mushkil", "link": "https://youtu.be/P3-mbxLvkiE?si=ckg1IGpnoW_c8A2d"},
+        {"Mood": "Angry", "Quote": "Anger is one letter short of danger.", "Song": "Bekhayali - kabir singh", "link": "https://youtu.be/NO4BUCFJPqQ?si=Cm-q57sFLAUKBanv"},
+        {"Mood": "Angry",  "Quote":"From anger arises delusion… and one falls down from the spiritual platform","song":"jee le zara", "link":"https://youtu.be/gj6KBKzbGDk?si=kGbSoj4B19x7oeCu"},
+        {"Mood": "Angry",  "quote":"Anger is a storm; let it pass, or it will drown the calm within you.","Song":"","link":"https://youtu.be/Ax0G_P2dSBw?si=lEzWMWdQvm6TdGaS"},
+        {"Mood": "Angry", "Quote": "Don't let anger control you, let it teach you.", "Song": "Jee karda - Badlapur", "link": "https://youtu.be/_2HbGh9dTvk?si=Bmrf3QygVd2xtPkV"}
     ],
     "Love": [
-        {"Emoji": "😍", "Mood": "Love", "Quote": "You are my today and all of my tomorrows.", "Song": "tum mile - tum mile", "Background_Color": "#FF69B4"},
-        {"Emoji": "🥰", "Mood": "Love", "Quote": "Every love story is beautiful, but ours is my favorite.", "Song": "teri meri kahani - gabbar is back", "Background_Color": "#FFC0CB"},
-        {"Emoji": "❤️", "Mood": "Love", "Quote": "Love is composed of a single soul inhabiting two bodies.", "Song": "janam janam - dilwale", "Background_Color": "#FFB6C1"}
+        {"Mood": "Love", "Quote": "You are my today and all of my tomorrows.", "Song": "tum mile - tum mile", "link": "https://youtu.be/8JbEH5rs18Q?si=Q-7j-f3u6RK7bUW2"},
+        {"Mood": "Love", "Quote": "Every love story is beautiful, but ours is my favorite.", "Song": "teri meri kahani - gabbar is back", "link": "https://youtu.be/ar5hpVZmGfw?si=K5wbQUq-z-7k7vp1"},
+        {"Mood": "Love", "Quote": "Love is composed of a single soul inhabiting two bodies.", "Song": "janam janam - dilwale", "link": "https://youtu.be/g44iifQIFyM?si=eaEzb0Uif557x4Yf"},
+        {"Mood": "Love", "quote":"Always think of Me, be devoted to Me, worship Me…","song":"Khuda jane","link":"https://youtu.be/MRysw--JAkM?si=NJEz0WHp9TxYhej6"},
+        {"Mood": "Love", "Quote":"Fix your mind on Me… you will come to Me; you are dear to Me","song":"sason ki mala pe","link":"https://youtu.be/-FGYMkL_u-g?si=H7UuwMZPuo1ob3Jw"}
     ],
-    "Tired_Neutral": [
-        {"Emoji": "😴", "Mood": "Tired/Neutral", "Quote": "Sometimes the most productive thing you can do is rest.", "Song": "Let Her Go – Passenger", "Background_Color": "#A9A9A9"},
-        {"Emoji": "😐", "Mood": "Tired/Neutral", "Quote": "Not every day has to be perfect.", "Song": "Sooraj dooba hain - Roy", "Background_Color": "#C0C0C0"},
-        {"Emoji": "🤔", "Mood": "Tired/Neutral", "Quote": "The quieter you become, the more you can hear.", "Song": "ilahi - yeh jawani hai deewani", "Background_Color": "#D3D3D3"}
+    "Excited": [
+        {"Mood": "Excited", "Quote": "Worker in goodness: free from attachment, fearless, enthusiastic (utsāha), and resolute.", "Song": "kar har maidan fateh","Link":"https://youtu.be/H53LPMYdkl0?si=FrLX327rLOVj4GcO"},
+        {"Mood": "Excited", "Quote": "Embrace the thrill—today is yours to conquer.", "Song": "dil dhadkane do","link":"https://youtu.be/Wy43-YD-qcM?si=HXG4DL51_EtevX9i"},
+        {"Mood": "Excited", "Quote": "Adventure begins the moment you decide to feel alive.", "Song": "Patakha guddi","link":"https://youtu.be/8HDTS80dlr4?si=A53YbLR8nilT1_tw"},
+        {"Mood": "Excited", "quote":"Every heartbeat feels like a drum, and the world is ready for your dance","song":"nachne nu jee karda","link":"https://youtu.be/zgU87U-K14U?si=nPTDrVxIS943Y_AU"},
+        {"Mood": "Excited", "Quote":"When joy sparks in your chest, let it light up everything around you","Song":"ude dil befikre","Link":"https://youtu.be/ymDzNv_-hzI?si=8J1-D35lpsPVv3yi"}
+    ],
+    "Relaxed": [
+        {"Mood": "Relaxed", "Quote": "As rivers enter the full, unmoving ocean… such a person alone attains peace", "Song": "pjir le aya dil (reprise)","link":"https://youtu.be/Z93rAu25KqI?si=c1YnLjmwWrBDmCse"},
+        {"Mood": "Relaxed", "Quote": "Relaxation is the art of doing nothing and everything at the same time.", "Song": "Namo Namo - Kedarnath","link":"https://youtu.be/dx4Teh-nv3A?si=prJJGbrugrL9BXfv"},
+        {"Mood": "Relaxed", "Quote": "Breathe deeply; even the quietest moments have their own melody.", "Song": "dil beparwah re","link":"https://youtu.be/VXOLI_skOnY?si=IYElZbZbBT2C3xq4"},
+        {"Mood": "Relaxed", "Quote": "Let the world move around you while you find stillness within", "Song": "Khairiyat","link":"https://youtu.be/_RFUvHlW41A?si=qcubvBoO36UEjwU3"},
+        {"Mood": "Relaxed", "Quote": "In the calm, we find clarity, and in clarity, we find ourselves", "Song": "Khamoshiyan","link":"https://youtu.be/qN88U6ZqR-4?si=vb3SsbAiMG4e-o0Z"}
+    ],
+    "Romantic": [
+        {"Mood": "Romantic", "Quote": "Love isn’t just a feeling; it’s the quiet moments that make life magical", "Song": "toota jo kabhi tara","link":"https://youtu.be/EYr9z7uVlLQ?si=rIy4q_U1CsEbNd74"},
+        {"Mood": "Romantic", "Quote": "Every heartbeat whispers your name, even when we’re apart", "Song": "tum hi aana","Link":"https://youtu.be/1jDkrhxWLUA?si=9QlutkSFtw0JoskH"},
+        {"Mood": "Romantic", "Quote": "Some souls are meant to meet, and ours collided like a spark in the dark", "Song": "javedan he ","link":"https://youtu.be/EvX2ZPtDz-w?si=78vPNmd1Mo_XIVZh"},
+        {"Mood": "Romantic", "Quote": "In your eyes, I find the home my heart has always sought", "Song": "tum hi ho","link":"https://youtu.be/P4HYIWfceBQ?si=ijunRGoTZvPhN_Xu"},
+        {"Mood": "Romantic", "Quote": "To love you is to see the world in brighter colors and softer light", "Song": "Banjara","link":"https://youtu.be/HDnLm1197oc?si=4vOTTO24Sq3BLpkJ"}
     ]
+
 }
 
+# Create CSV files in table form printing
 for mood, entries in mood_data.items():
     df = pd.DataFrame(entries)
     file_path = os.path.join(folder_name, f"{mood}.csv")
     df.to_csv(file_path, index=False)
     print(f"\n {mood} Mood Data:")
+    print(tabulate(df, headers="keys", tablefmt="fancy_grid"))
     print(df)
 
-
-
-
-
-
+print("\n All CSV files created successfully in the 'mood_data' folder.")
+print("\n-------------------------------THANK YOU-------------------------------------")
